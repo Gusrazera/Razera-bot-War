@@ -1,0 +1,26 @@
+:root{
+  --bg:#0f1a24; --mar:#13222f; --texto:#e8eef3; --suave:#8fa3b3; --linha:#4b6275;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){
+  :root{--bg:#eef2f5; --mar:#dce6ee; --texto:#16222c; --suave:#51657a; --linha:#7f93a6; color-scheme:light}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--texto);font-family:Georgia,"Times New Roman",serif}
+header{padding:16px 20px 4px}
+h1{margin:0;font-size:1.5rem;letter-spacing:.02em}
+#info{margin:4px 0 0;color:var(--suave);min-height:2.6em;font-size:.95rem;line-height:1.35}
+main{padding:8px 12px 24px;max-width:1200px;margin:auto}
+svg{width:100%;height:auto;background:var(--mar);border-radius:10px;display:block}
+.halo{stroke-linejoin:round;stroke-width:64;opacity:.16}
+.elo{stroke:var(--linha);stroke-width:1.4;fill:none}
+.elo.mar{stroke-dasharray:4 4}
+.elo.ativo{stroke:var(--texto);stroke-width:2.4;stroke-dasharray:none}
+.terr{cursor:pointer;outline:none}
+.terr circle{stroke:var(--bg);stroke-width:3;transition:r .12s}
+.terr text{fill:var(--texto);font:10px Georgia,serif;text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:var(--mar);stroke-width:3px}
+.terr:hover circle,.terr:focus circle,.terr.sel circle{r:19;stroke:var(--texto)}
+.terr.viz circle{stroke:var(--texto)}
+#legend{list-style:none;display:flex;flex-wrap:wrap;gap:8px 18px;padding:0;margin:14px 4px 0;font-size:.9rem}
+#legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+#legend span{color:var(--suave)}
