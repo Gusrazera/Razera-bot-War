@@ -164,14 +164,6 @@ export const WAR = { CONTINENTES, TERRITORIOS, MAR };
 `);
 
 // ---------- js/geo.js (ESM) ----------
-const yt = proj([0, 84])[1], yb = proj([0, -58])[1];
-let grade = "";
-for (let lo = -180; lo <= 180; lo += 30) grade += "M" + [...Array(25)].map((_, i) => { const p = proj([lo, -58 + i*5.9]); return num(p[0]) + " " + num(p[1]); }).join("L");
-for (let la = -30; la <= 60; la += 30) grade += "M" + [...Array(61)].map((_, i) => { const p = proj([-180 + i*6, la]); return num(p[0]) + " " + num(p[1]); }).join("L");
-const geo = {viewBox: [0, +(yt-6).toFixed(1), 1000, +(yb-yt+12).toFixed(1)], grade, mar: marPts, t: {}};
-for (const t of T) geo.t[t.id] = {d: t.d, ...(t.p.length ? {p: t.p} : {}), cx: t.cx, cy: t.cy, a: t.a};
-fs.writeFileSync(rel("geo.js"), `// Gerado por tools/gerar.mjs — não edite à mão.\nexport const GEO = ${JSON.stringify(geo)};\n`);
-
 // ---------- war-bots-standalone.html (tudo inline, sem módulos) ----------
 const lê = f => fs.readFileSync(rel(f), "utf8");
 // tira import/export para reaproveitar o mesmo código num <script> clássico
@@ -181,10 +173,10 @@ const stripEsm = s => s
   .replace(/^export\s*\{[^}]*\};?\s*$/gm, "");
 
 let sa = lê("index.html")
-  .replace('<link rel="stylesheet" href="./css/style.css">', () => `<style>\n${lê("css/style.css")}\n</style>`)
+  .replace('<link rel="stylesheet" href="./style.css">', () => `<style>\n${lê("style.css")}\n</style>`)
   .replace(/<script[^>]*src="[^"]*"[^>]*><\/script>\s*/g, "");
 
-const inline = ["js/data.js", "js/geo.js", "js/map.js"].map(f => stripEsm(lê(f))).join("\n\n");
+const inline = ["data.js", "geo.js", "map.js"].map(f => stripEsm(lê(f))).join("\n\n");
 sa = sa.replace("</body>", () => `<script>\n(() => {\n${inline}\n})();\n</script>\n</body>`);
 fs.writeFileSync(rel("war-bots-standalone.html"), sa);
 
