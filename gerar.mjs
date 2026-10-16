@@ -151,11 +151,11 @@ const territorios = {}; T.forEach((t, k) => { territorios[t.id] = {id: t.id, nom
 const marPares = [...mar].map(k => k.split("|").map(x => T[+x].id));
 const marPts = [...mar].map(k => { const [x1, y1, x2, y2] = pontos.get(k); return [...proj([x1, y1]), ...proj([x2, y2])].map(v => +v.toFixed(1)); });
 
-const rel = f => new URL("../" + f, import.meta.url);
+const rel = f => new URL(f, import.meta.url);
 
 // ---------- js/data.js (ESM) ----------
-fs.writeFileSync(rel("js/data.js"),
-`// Gerado por tools/gerar.mjs — não edite à mão.
+fs.writeFileSync(rel("data.js"),
+`// Gerado por gerar.mjs — não edite à mão.
 // vizinhos = fronteiras por terra + ligações por mar; MAR lista só as ligações por mar.
 export const CONTINENTES = ${JSON.stringify(conts)};
 export const TERRITORIOS = {\n${Object.values(territorios).map(t => "  " + t.id + ":" + JSON.stringify(t)).join(",\n")}\n};
@@ -170,7 +170,7 @@ for (let lo = -180; lo <= 180; lo += 30) grade += "M" + [...Array(25)].map((_, i
 for (let la = -30; la <= 60; la += 30) grade += "M" + [...Array(61)].map((_, i) => { const p = proj([-180 + i*6, la]); return num(p[0]) + " " + num(p[1]); }).join("L");
 const geo = {viewBox: [0, +(yt-6).toFixed(1), 1000, +(yb-yt+12).toFixed(1)], grade, mar: marPts, t: {}};
 for (const t of T) geo.t[t.id] = {d: t.d, ...(t.p.length ? {p: t.p} : {}), cx: t.cx, cy: t.cy, a: t.a};
-fs.writeFileSync(rel("js/geo.js"), `// Gerado por tools/gerar.mjs — não edite à mão.\nexport const GEO = ${JSON.stringify(geo)};\n`);
+fs.writeFileSync(rel("geo.js"), `// Gerado por tools/gerar.mjs — não edite à mão.\nexport const GEO = ${JSON.stringify(geo)};\n`);
 
 // ---------- war-bots-standalone.html (tudo inline, sem módulos) ----------
 const lê = f => fs.readFileSync(rel(f), "utf8");
