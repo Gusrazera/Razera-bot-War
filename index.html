@@ -4,18 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>War Bots · Mapa</title>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 <header>
   <h1>War Bots</h1>
-  <p id="info">Passe o mouse (ou toque) em um território para ver as fronteiras.</p>
+  <p id="info">Passe o mouse (ou toque) em um país. Roda do mouse aproxima, arrastar move o mapa.</p>
+  <div id="controles">
+    <button id="zmais" aria-label="Aproximar">+</button>
+    <button id="zmenos" aria-label="Afastar">−</button>
+    <button id="zreset">Reiniciar</button>
+    <label><input type="checkbox" id="mar"> Mostrar ligações por mar</label>
+  </div>
 </header>
 <main>
-  <svg id="map" viewBox="0 0 1000 540" role="img" aria-label="Mapa mundial com 42 territórios"></svg>
+  <svg id="map" role="img" aria-label="Mapa mundial dividido por países"></svg>
   <ul id="legend"></ul>
 </main>
-<script src="js/data.js"></script>
-<script src="js/map.js"></script>
+<script type="module" src="./js/map.js"></script>
 </body>
 </html>
