@@ -3,7 +3,7 @@
 // (ou ao território mais próximo, se for ilha). Uso: npm install && npm run mapa
 import {createRequire} from "module";
 import fs from "fs";
-import {geoNaturalEarth1, geoCentroid} from "d3-geo";
+import {geoNaturalEarth1, geoGraticule10} from "d3-geo";
 import {feature, neighbors} from "topojson-client";
 import pc from "polygon-clipping";
 
@@ -153,7 +153,7 @@ const marPts = [...mar].map(k => { const [x1, y1, x2, y2] = pontos.get(k); retur
 
 const rel = f => new URL(f, import.meta.url);
 
-// ---------- js/data.js (ESM) ----------
+// ---------- data.js (ESM) ----------
 fs.writeFileSync(rel("data.js"),
 `// Gerado por gerar.mjs — não edite à mão.
 // vizinhos = fronteiras por terra + ligações por mar; MAR lista só as ligações por mar.
@@ -163,10 +163,31 @@ export const MAR = ${JSON.stringify(marPares)};
 export const WAR = { CONTINENTES, TERRITORIOS, MAR };
 `);
 
-// ---------- js/geo.js (ESM) ----------
-// ---------- war-bots-standalone.html (tudo inline, sem módulos) ----------
+// ---------- geo.js (ESM) ----------
+const gradeD = (() => {
+  let d = "";
+  for (const line of geoGraticule10().coordinates) {
+    const pts = line.map(p => proj(p)).filter(([x, y]) => isFinite(x) && isFinite(y));
+    if (pts.length < 2) continue;
+    d += "M" + pts.map(p => num(p[0]) + " " + num(p[1])).join("L");
+  }
+  return d;
+})();
+
+fs.writeFileSync(rel("geo.js"),
+`// Gerado por gerar.mjs — não edite à mão.
+export const GEO = ${JSON.stringify({
+  viewBox: [0, 0, 1000, 522],
+  grade: gradeD,
+  mar: marPts,
+  t: Object.fromEntries(T.map(t => [t.id, {
+    d: t.d, ...(t.p.length ? {p: t.p} : {}), cx: t.cx, cy: t.cy, a: t.a
+  }]))
+})};
+`);
+
+// ---------- war-bots-standalone.html ----------
 const lê = f => fs.readFileSync(rel(f), "utf8");
-// tira import/export para reaproveitar o mesmo código num <script> clássico
 const stripEsm = s => s
   .replace(/^import\s+[^\n]*;\s*$/gm, "")
   .replace(/^export\s+(const|let|var|function|class)\s+/gm, "$1 ")
