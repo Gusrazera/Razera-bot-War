@@ -2,25 +2,12 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>War Bots · Mapa</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>War Bots</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<header>
-  <h1>War Bots</h1>
-  <p id="info">Passe o mouse (ou toque) em um país. Roda do mouse aproxima, arrastar move o mapa.</p>
-  <div id="controles">
-    <button id="zmais" aria-label="Aproximar">+</button>
-    <button id="zmenos" aria-label="Afastar">−</button>
-    <button id="zreset">Reiniciar</button>
-    <label><input type="checkbox" id="mar"> Mostrar ligações por mar</label>
-  </div>
-</header>
-<main>
-  <svg id="map" role="img" aria-label="Mapa mundial dividido por países"></svg>
-  <ul id="legend"></ul>
-</main>
+<svg id="map" role="img" aria-label="Mapa mundial"></svg>
 <script type="module" src="./map.js"></script>
 </body>
 </html>
